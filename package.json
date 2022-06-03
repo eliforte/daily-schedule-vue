@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
-    "build": "quasar build",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "echo \"No test specified\" && exit 0"
   },
