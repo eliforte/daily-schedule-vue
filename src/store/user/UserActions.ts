@@ -6,23 +6,21 @@ import { api } from '../../boot/axios';
 
 export default {
   IfLoggidIn: (store: ActionContext<IUserState, unknown>) => {
-    store.state.isLoading = true;
+    store.commit('ModuleResponse/setIsLoading', true);
     if (localStorage.getItem('token')) {
       store.state.loggedIn = true;
-      store.state.isLoading = false;
+      store.commit('ModuleResponse/setIsLoading', false);
     }
-    store.state.isLoading = false;
+    store.commit('ModuleResponse/setIsLoading', false);
   },
   setIntoStore: (store: ActionContext<IUserState, unknown>, response: AxiosResponse) => {
-    store.state.response.message = response.data.message;
-    store.state.response.status = response.data.status;
     store.state.user.token = response.data.token;
     store.state.user._id = response.data.user._id;
     store.state.user.name = response.data.user.name;
     localStorage.setItem('token', response.data.token);
   },
   Login: (store: ActionContext<IUserState, unknown>) => {
-    store.state.isLoading = true;
+    store.commit('ModuleResponse/setIsLoading', true);
     api.post('/login', {
       email: store.state.loginForm.email,
       password: store.state.loginForm.password,
@@ -30,16 +28,16 @@ export default {
       store.dispatch('setIntoStore', response);
     }).catch((err: AxiosError) => {
       if (err.response) {
-        store.state.response.message = err.response.data.message;
-        store.state.response.status = true;
+        store.commit('ModuleResponse/setResponseMessage', err.response.data.message);
+        store.commit('ModuleResponse/setResponseHasError', true);
       }
-      store.state.isLoading = false;
+      store.commit('ModuleResponse/setIsLoading', false);
     }).finally(() => {
-      store.state.isLoading = false;
+      store.commit('ModuleResponse/setIsLoading', false);
     });
   },
   Register: (store: ActionContext<IUserState, unknown>) => {
-    store.state.isLoading = true;
+    store.commit('ModuleResponse/setIsLoading', true);
     api.post('/users', {
       email: store.state.registerForm.email,
       password: store.state.registerForm.password,
@@ -48,12 +46,12 @@ export default {
       store.dispatch('setIntoStore', response);
     }).catch((err: AxiosError) => {
       if (err.response) {
-        store.state.response.message = err.response.data.message;
-        store.state.response.status = true;
+        store.commit('ModuleResponse/setResponseMessage', err.response.data.message);
+        store.commit('ModuleResponse/setResponseHasError', true);
       }
-      store.state.isLoading = false;
+      store.commit('ModuleResponse/setIsLoading', false);
     }).finally(() => {
-      store.state.isLoading = false;
+      store.commit('ModuleResponse/setIsLoading', false);
     });
   },
 };

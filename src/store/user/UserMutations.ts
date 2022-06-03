@@ -4,9 +4,6 @@ export default {
   setLoggedIn(state: IUserState, payload: boolean) {
     state.loggedIn = payload;
   },
-  setLoading(state: IUserState, payload: boolean) {
-    state.isLoading = payload;
-  },
   setLoginForm(state: IUserState, payload: { key: keyof IUserState['loginForm'], value: string }) {
     state.loginForm[payload.key] = payload.value;
   },
