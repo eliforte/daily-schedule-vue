@@ -2,7 +2,7 @@
   <div class="form-container">
     <form
       @submit="onSubmit"
-      :class="screen <= 416 ? 'form-login' : 'form-login fixed-center'"
+      :class="screen <= 416 ? 'form-login' : 'form-login absolute-center'"
     >
     <h3 class="title">Login</h3>
       <q-input

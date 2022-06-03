@@ -2,7 +2,7 @@
   <div class="form-container">
     <Dialog />
     <form @submit="onSubmit"
-      :class="screen <= 416 ? 'form-register' : 'form-register fixed-center'"
+      :class="screen <= 416 ? 'form-register' : 'form-register absolute-center'"
     >
       <h3 class="title">Register</h3>
       <q-input
@@ -145,7 +145,7 @@ export default defineComponent({
     margin: 10px 0 0 0
 
 .title
-  padding: 20px 0 0px 0
+  padding: 20px 0
   @include mobile-version
     padding: 10vh 0 3vh 0
 
