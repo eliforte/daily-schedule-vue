@@ -1,14 +1,16 @@
 import { RouteRecordRaw } from 'vue-router';
+import Login from '../pages/Login.vue';
+import Register from '../pages/Register.vue';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('pages/Login.vue'),
+    component: Login,
     name: 'login',
   },
   {
     path: '/register',
-    component: () => import('pages/Register.vue'),
+    component: Register,
     name: 'register',
   },
 ];
