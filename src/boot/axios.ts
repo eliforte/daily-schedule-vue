@@ -7,7 +7,7 @@ declare module '@vue/runtime-core' {
   }
 }
 
-const api = axios.create({ baseURL: 'https://to-do-api-ts.herokuapp.com/' });
+const api = axios.create({ baseURL: `${process.env.BASE_URL}` });
 
 export default boot(({ app }) => {
   app.config.globalProperties.$axios = axios;
