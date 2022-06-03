@@ -5,7 +5,7 @@ import { IUserState } from './UserTypes';
 import { api } from '../../boot/axios';
 
 export default {
-  IfLoggidIn: (store: ActionContext<IUserState, unknown>) => {
+  IfLoggidIn: (store: ActionContext<IUserState, unknown>): void => {
     store.commit('ModuleResponse/setIsLoading', true);
     if (localStorage.getItem('token')) {
       store.state.loggedIn = true;
@@ -13,13 +13,13 @@ export default {
     }
     store.commit('ModuleResponse/setIsLoading', false);
   },
-  setIntoStore: (store: ActionContext<IUserState, unknown>, response: AxiosResponse) => {
+  setIntoStore: (store: ActionContext<IUserState, unknown>, response: AxiosResponse): void => {
     store.state.user.token = response.data.token;
     store.state.user._id = response.data.user._id;
     store.state.user.name = response.data.user.name;
     localStorage.setItem('token', response.data.token);
   },
-  Login: (store: ActionContext<IUserState, unknown>) => {
+  Login: (store: ActionContext<IUserState, unknown>): void => {
     store.commit('ModuleResponse/setIsLoading', true);
     api.post('/login', {
       email: store.state.loginForm.email,
@@ -36,7 +36,7 @@ export default {
       store.commit('ModuleResponse/setIsLoading', false);
     });
   },
-  Register: (store: ActionContext<IUserState, unknown>) => {
+  Register: (store: ActionContext<IUserState, unknown>): void => {
     store.commit('ModuleResponse/setIsLoading', true);
     api.post('/users', {
       email: store.state.registerForm.email,
