@@ -1,5 +1,5 @@
 # Quasar App (todo-vue)
-# Link da aplicação [aqui](dailyschedule.vercel.app)
+# Link da aplicação [aqui](https://dailyschedule.vercel.app)
 A Quasar Project
 
 ## Install the dependencies
