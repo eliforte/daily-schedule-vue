@@ -1,15 +1,17 @@
 <template>
+  <Header />
   <div class="form-container">
     <form
       @submit="onSubmit"
       :class="screen <= 416 ? 'form-login' : 'form-login absolute-center'"
     >
-    <h3 class="title">Login</h3>
+    <h3 class="title-login">Login</h3>
       <q-input
         filled
         :model-value="getLoginForm.email"
         @change="setLoginForm({ value: $event, key: 'email' })"
         class="q-my-sm"
+        label-color="grey-6"
         label="Email"
         name="email"
         type="email"
@@ -21,6 +23,7 @@
         :model-value="getLoginForm.password"
         @change="setLoginForm({ value: $event, key: 'password' })"
         class="q-my-sm"
+        label-color="grey-6"
         label="Password"
         name="password"
         type="password"
@@ -53,12 +56,14 @@
 import { defineComponent } from 'vue';
 import { useQuasar } from 'quasar';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 export default defineComponent({
   name: 'Login-vue',
   components: {
     Footer,
+    Header,
   },
   data() {
     return {
@@ -108,6 +113,7 @@ export default defineComponent({
 .form-container
   height: 100vh
   overflow: hidden
+  overflow: hidden
 
 .form-login
   background-color: #E6E6FA
@@ -120,7 +126,7 @@ export default defineComponent({
   padding: 20px 20px
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
   @include mobile-version
-    max-height: 100%
+    max-height: 0
     padding: 0 10px
     background-color: rgba(230,230,250,0.6306897759103641)
     border-radius: 0px
@@ -138,10 +144,11 @@ export default defineComponent({
   @include mobile-version
     margin: 10px 0 0 0
 
-.title
+.title-login
   padding: 20px 0
   @include mobile-version
     padding: 10vh 0 3vh 0
+    color: #f5f5f5
 
 .redirect-to-register
   cursor: pointer
@@ -150,5 +157,7 @@ export default defineComponent({
 
 .message
   margin: 20px 0
+  @include mobile-version
+    color: #f5f5f5
 
 </style>

@@ -1,15 +1,17 @@
 <template>
+  <Header/>
   <div class="form-container">
     <Dialog />
     <form @submit="onSubmit"
       :class="screen <= 416 ? 'form-register' : 'form-register absolute-center'"
     >
-      <h3 class="title">Register</h3>
+      <h3 class="title-register">Register</h3>
       <q-input
         filled
         :model-value="getRegisterForm.name"
         @change="setRegisterForm({ value: $event, prop: 'name' })"
         class="q-my-sm"
+        label-color="grey-6"
         label="Name"
         name="name"
         type="text"
@@ -21,6 +23,7 @@
         :model-value="getRegisterForm.email"
         @change="setRegisterForm({ value: $event, prop: 'email' })"
         class="q-my-sm"
+        label-color="grey-6"
         label="Email"
         name="email"
         type="email"
@@ -32,6 +35,7 @@
         :model-value="getRegisterForm.password"
         @change="setRegisterForm({ value: $event, prop: 'password' })"
         class="q-my-sm"
+        label-color="grey-6"
         label="Password"
         name="password"
         type="password"
@@ -64,12 +68,14 @@
 import { defineComponent } from 'vue';
 import { useQuasar } from 'quasar';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 export default defineComponent({
   name: 'Register-vue',
   components: {
     Footer,
+    Header,
   },
   data() {
     return {
@@ -125,7 +131,7 @@ export default defineComponent({
   padding: 20px 20px
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
   @include mobile-version
-    max-height: 100%
+    max-height: 0
     padding: 0 10px
     background-color: rgba(230,230,250,0.6306897759103641)
     border-radius: 0px
@@ -144,10 +150,12 @@ export default defineComponent({
   @include mobile-version
     margin: 10px 0 0 0
 
-.title
+.title-register
   padding: 20px 0
   @include mobile-version
-    padding: 10vh 0 3vh 0
+    font-size: 40px
+    padding: 5vh 0 3vh 0
+    color: #f5f5f5
 
 .redirect-to-login
   cursor: pointer
@@ -156,5 +164,7 @@ export default defineComponent({
 
 .message
   margin: 20px 0
+  @include mobile-version
+    color: #f5f5f5
 
 </style>
