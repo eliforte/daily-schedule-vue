@@ -1,15 +1,15 @@
 <template>
   <Header/>
   <div class="form-container">
-    <Dialog />
     <form @submit="onSubmit"
       :class="screen <= 416 ? 'form-register' : 'form-register absolute-center'"
     >
       <h3 class="title-register">Register</h3>
       <q-input
         filled
+        auto-complete="off"
         :model-value="getRegisterForm.name"
-        @change="setRegisterForm({ value: $event, prop: 'name' })"
+        @change="setRegisterForm({ value: $event, key: 'name' })"
         class="q-my-sm"
         label-color="grey-6"
         label="Name"
@@ -20,8 +20,9 @@
       />
       <q-input
         filled
+        auto-complete="off"
         :model-value="getRegisterForm.email"
-        @change="setRegisterForm({ value: $event, prop: 'email' })"
+        @change="setRegisterForm({ value: $event, key: 'email' })"
         class="q-my-sm"
         label-color="grey-6"
         label="Email"
@@ -32,8 +33,9 @@
       />
       <q-input
         filled
+        auto-complete="off"
         :model-value="getRegisterForm.password"
-        @change="setRegisterForm({ value: $event, prop: 'password' })"
+        @change="setRegisterForm({ value: $event, key: 'password' })"
         class="q-my-sm"
         label-color="grey-6"
         label="Password"
@@ -50,14 +52,14 @@
             :ripple="{ color: 'pink-2' }"
             color="light-blue-13"
             label="Sign up"
-            @click.prevent="onSubmit"
+            @click.prevent="Register()"
           />
-        <p class="message">Already have an account? Click <spam
+        <p class="message">Already have an account? Click <span
           class="redirect-to-login"
           @click="$router.push('/')"
         >
         here
-        </spam> to Login.</p>
+        </span> to Login.</p>
         </section>
     </form>
     <Footer/>

@@ -8,6 +8,7 @@
     <h3 class="title-login">Login</h3>
       <q-input
         filled
+        auto-complete="off"
         :model-value="getLoginForm.email"
         @change="setLoginForm({ value: $event, key: 'email' })"
         class="q-my-sm"
@@ -20,6 +21,7 @@
       />
       <q-input
         filled
+        auto-complete="off"
         :model-value="getLoginForm.password"
         @change="setLoginForm({ value: $event, key: 'password' })"
         class="q-my-sm"
@@ -40,12 +42,12 @@
           label="Sign in"
           @click="onSubmit, Login()"
         />
-        <p class="message">Click <spam
+        <p class="message">Click <span
           class="redirect-to-register"
           @click="$router.push('/register')"
         >
         here
-        </spam> to register.</p>
+        </span> to register.</p>
       </section>
     </form>
     <Footer/>
