@@ -14,4 +14,7 @@ export default {
     token: '',
   },
   loggedIn: false,
+  isLoading: false,
+  responseMessage: '',
+  hasError: false,
 };

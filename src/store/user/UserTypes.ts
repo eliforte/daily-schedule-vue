@@ -15,4 +15,7 @@ export interface IUserState {
     token: string;
   },
   loggedIn: boolean;
+  isLoading: boolean;
+  responseMessage: string | null;
+  hasError: boolean;
 }
