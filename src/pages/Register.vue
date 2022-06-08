@@ -44,6 +44,7 @@
         lazy-rules
         :rules="[ val => val && val.length > 5 || 'Enter a password with at least 6 characters' ]"
       />
+        <span class="error-message" v-if="getResponseHasError">{{ getResponseMessage }}</span>
         <section class="btn-container">
           <q-btn
             push
@@ -107,7 +108,7 @@ export default defineComponent({
     ...mapMutations('UserModule', ['setRegisterForm']),
   },
   computed: {
-    ...mapGetters('UserModule', ['getRegisterForm', 'getUserInfo']),
+    ...mapGetters('UserModule', ['getRegisterForm', 'getUserInfo', 'getResponseMessage', 'getResponseHasError']),
   },
   mounted() {
     this.screen = window.screen.width;
@@ -168,5 +169,12 @@ export default defineComponent({
   margin: 20px 0
   @include mobile-version
     color: #f5f5f5
+
+.error-message
+  color: red
+  font-size: 13px
+  margin-top: 5px
+  @include mobile-version
+    font-size: 13px
 
 </style>
