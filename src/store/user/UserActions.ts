@@ -6,12 +6,13 @@ import { api } from '../../boot/axios';
 
 export default {
   IfLoggidIn: (store: ActionContext<IUserState, unknown>): void => {
-    store.commit('ModuleResponse/setIsLoading', true);
+    store.state.isLoading = true;
     if (localStorage.getItem('token')) {
       store.state.loggedIn = true;
-      store.commit('ModuleResponse/setIsLoading', false);
+      store.state.user.token = JSON.stringify(localStorage.getItem('token'));
+      store.state.isLoading = false;
     }
-    store.commit('ModuleResponse/setIsLoading', false);
+    store.state.isLoading = false;
   },
   setIntoStore: (store: ActionContext<IUserState, unknown>, response: AxiosResponse): void => {
     store.state.user.token = response.data.token;
@@ -20,7 +21,7 @@ export default {
     localStorage.setItem('token', response.data.token);
   },
   Login: (store: ActionContext<IUserState, unknown>): void => {
-    store.commit('ModuleResponse/setIsLoading', true);
+    store.state.isLoading = true;
     api.post('/login', {
       email: store.state.loginForm.email,
       password: store.state.loginForm.password,
@@ -28,16 +29,16 @@ export default {
       store.dispatch('setIntoStore', response);
     }).catch((err: AxiosError) => {
       if (err.response) {
-        store.commit('ModuleResponse/setResponseMessage', err.response.data.message);
-        store.commit('ModuleResponse/setResponseHasError', true);
+        store.state.responseMessage = err.response.data.message;
+        store.state.hasError = true;
+        store.state.isLoading = false;
       }
-      store.commit('ModuleResponse/setIsLoading', false);
     }).finally(() => {
-      store.commit('ModuleResponse/setIsLoading', false);
+      store.state.isLoading = false;
     });
   },
   Register: (store: ActionContext<IUserState, unknown>): void => {
-    store.commit('ModuleResponse/setIsLoading', true);
+    store.state.isLoading = true;
     api.post('/users', {
       email: store.state.registerForm.email,
       password: store.state.registerForm.password,
@@ -46,12 +47,12 @@ export default {
       store.dispatch('setIntoStore', response);
     }).catch((err: AxiosError) => {
       if (err.response) {
-        store.commit('ModuleResponse/setResponseMessage', err.response.data.message);
-        store.commit('ModuleResponse/setResponseHasError', true);
+        store.state.responseMessage = err.response.data.message;
+        store.state.hasError = true;
+        store.state.isLoading = false;
       }
-      store.commit('ModuleResponse/setIsLoading', false);
     }).finally(() => {
-      store.commit('ModuleResponse/setIsLoading', false);
+      store.state.isLoading = false;
     });
   },
 };
