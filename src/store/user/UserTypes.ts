@@ -11,7 +11,6 @@ export interface IUserState {
   user: {
     _id: string;
     name: string;
-    email: string;
     token: string;
   },
   loggedIn: boolean;
