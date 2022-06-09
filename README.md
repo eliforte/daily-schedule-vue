@@ -1,4 +1,4 @@
-# Quasar App (DailySchedule)
+# DailySchedule
 # Link da aplicação [aqui](https://dailyschedule.vercel.app)
 A Quasar Project
 
