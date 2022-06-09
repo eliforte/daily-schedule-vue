@@ -16,43 +16,55 @@ export default {
   },
   setIntoStore: (store: ActionContext<IUserState, unknown>, response: AxiosResponse): void => {
     store.state.user.token = response.data.token;
-    store.state.user._id = response.data.user._id;
-    store.state.user.name = response.data.user.name;
+    store.state.user._id = response.data._id;
+    store.state.user.name = response.data.name;
     localStorage.setItem('token', response.data.token);
   },
-  Login: (store: ActionContext<IUserState, unknown>): void => {
+  RequestLogin:
+  async (store: ActionContext<IUserState, unknown>): Promise<AxiosResponse | AxiosError | void> => {
     store.state.isLoading = true;
-    api.post('/login', {
-      email: store.state.loginForm.email,
-      password: store.state.loginForm.password,
-    }).then((response: AxiosResponse) => {
-      store.dispatch('setIntoStore', response);
-    }).catch((err: AxiosError) => {
-      if (err.response) {
-        store.state.responseMessage = err.response.data.message;
+    try {
+      const request = await api.post('/login', {
+        email: store.state.loginForm.email,
+        password: store.state.loginForm.password,
+      });
+      store.dispatch('setIntoStore', request);
+      store.state.isLoading = false;
+      return request.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (error.response) {
+        store.state.responseMessage = error.response.data.message;
         store.state.hasError = true;
         store.state.isLoading = false;
+        return error;
       }
-    }).finally(() => {
       store.state.isLoading = false;
-    });
+      return error;
+    }
   },
-  Register: (store: ActionContext<IUserState, unknown>): void => {
+  RequestRegister:
+  async (store: ActionContext<IUserState, unknown>): Promise<AxiosResponse | AxiosError | void> => {
     store.state.isLoading = true;
-    api.post('/users', {
-      email: store.state.registerForm.email,
-      password: store.state.registerForm.password,
-      name: store.state.registerForm.name,
-    }).then((response: AxiosResponse) => {
-      store.dispatch('setIntoStore', response);
-    }).catch((err: AxiosError) => {
-      if (err.response) {
-        store.state.responseMessage = err.response.data.message;
+    try {
+      const request = await api.post('/users', {
+        email: store.state.registerForm.email,
+        password: store.state.registerForm.password,
+        name: store.state.registerForm.name,
+      });
+      store.dispatch('setIntoStore', request);
+      store.state.isLoading = false;
+      return request.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (error.response) {
+        store.state.responseMessage = error.response.data.message;
         store.state.hasError = true;
         store.state.isLoading = false;
+        return error;
       }
-    }).finally(() => {
       store.state.isLoading = false;
-    });
+      return error;
+    }
   },
 };
