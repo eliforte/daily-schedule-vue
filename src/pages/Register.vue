@@ -10,9 +10,11 @@
         auto-complete="off"
         :model-value="getRegisterForm.name"
         @change="setRegisterForm({ value: $event, key: 'name' })"
-        class="q-my-sm"
+        class="q-my-sm text-input"
         label-color="grey-6"
         label="Name"
+        input-class="text-input"
+        color="deep-purple-12"
         name="name"
         type="text"
         lazy-rules
@@ -26,6 +28,8 @@
         class="q-my-sm"
         label-color="grey-6"
         label="Email"
+        input-class="text-input"
+        color="deep-purple-12"
         name="email"
         type="email"
         lazy-rules
@@ -39,6 +43,8 @@
         class="q-my-sm"
         label-color="grey-6"
         label="Password"
+        input-class="text-input"
+        color="deep-purple-12"
         name="password"
         type="password"
         lazy-rules
@@ -53,16 +59,17 @@
             :ripple="{ color: 'pink-2' }"
             color="light-blue-13"
             label="Sign up"
-            @click.prevent="Register()"
+            @click.prevent="onSubmit, Register()"
           />
-        <p class="message">Already have an account? Click <span
+        <p class="message">Already have an account? Click <a
           class="redirect-to-login"
-          @click="$router.push('/')"
+          href="/"
         >
         here
-        </span> to Login.</p>
+        </a> to Login.</p>
         </section>
     </form>
+    <Loading/>
     <Footer/>
   </div>
 </template>
@@ -73,12 +80,14 @@ import { useQuasar } from 'quasar';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
+import Loading from '../components/Loading.vue';
 
 export default defineComponent({
   name: 'Register-vue',
   components: {
     Footer,
     Header,
+    Loading,
   },
   data() {
     return {
@@ -104,8 +113,14 @@ export default defineComponent({
         });
       }
     },
-    ...mapActions('UserModule', ['Register']),
+    ...mapActions('UserModule', ['RequestRegister']),
     ...mapMutations('UserModule', ['setRegisterForm']),
+    async Register() {
+      const response = await this.RequestRegister();
+      if (response.token) {
+        this.$router.push('/home');
+      }
+    },
   },
   computed: {
     ...mapGetters('UserModule', ['getRegisterForm', 'getUserInfo', 'getResponseMessage', 'getResponseHasError']),
@@ -164,6 +179,7 @@ export default defineComponent({
   cursor: pointer
   color: #197cf2
   font-weight: bold
+  text-decoration: none
 
 .message
   margin: 20px 0
@@ -176,5 +192,9 @@ export default defineComponent({
   margin-top: 5px
   @include mobile-version
     font-size: 13px
+    padding-left: 10px
 
+.text-input
+  @include mobile-version
+    color: #f5f5f5
 </style>

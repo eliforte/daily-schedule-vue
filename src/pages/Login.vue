@@ -12,8 +12,10 @@
         :model-value="getLoginForm.email"
         @change="setLoginForm({ value: $event, key: 'email' })"
         class="q-my-sm"
-        label-color="grey-6"
         label="Email"
+        label-color="grey-6"
+        input-class="text-input"
+        color="deep-purple-12"
         name="email"
         type="email"
         lazy-rules
@@ -27,11 +29,14 @@
         class="q-my-sm"
         label-color="grey-6"
         label="Password"
+        input-class="text-input"
+        color="deep-purple-12"
         name="password"
         type="password"
         lazy-rules
         :rules="[ val => val && val.length > 5 || 'Insira uma senha' ]"
       />
+      <span class="error-message" v-if="getResponseHasError">{{ getResponseMessage }}</span>
       <section class="btn-container">
         <q-btn
           push
@@ -40,16 +45,17 @@
           :ripple="{ color: 'pink-2' }"
           color="light-blue-13"
           label="Sign in"
-          @click="onSubmit, Login()"
+          @click.prevent="onSubmit, Login()"
         />
-        <p class="message">Click <span
+        <p class="message">Click <a
           class="redirect-to-register"
-          @click="$router.push('/register')"
+          href="/register"
         >
         here
-        </span> to register.</p>
+        </a> to register.</p>
       </section>
     </form>
+    <Loading/>
     <Footer/>
   </div>
 </template>
@@ -60,12 +66,14 @@ import { useQuasar } from 'quasar';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
+import Loading from '../components/Loading.vue';
 
 export default defineComponent({
   name: 'Login-vue',
   components: {
     Footer,
     Header,
+    Loading,
   },
   data() {
     return {
@@ -92,11 +100,20 @@ export default defineComponent({
         });
       }
     },
-    ...mapActions('UserModule', ['IfLoggedIn', 'Login']),
+    ...mapActions('UserModule', ['IfLoggedIn', 'RequestLogin']),
     ...mapMutations('UserModule', ['setLoginForm']),
+    async Login() {
+      const response = await this.RequestLogin();
+      if (response.token) {
+        this.$router.push('/home');
+      }
+    },
   },
   computed: {
-    ...mapGetters('UserModule', ['getLoginForm', 'getIsLoggedIn']),
+    ...mapGetters(
+      'UserModule',
+      ['getLoginForm', 'getIsLoggedIn', 'getResponseHasError', 'getResponseMessage', 'getUserInfo'],
+    ),
   },
   mounted() {
     this.IfLoggedIn();
@@ -156,10 +173,19 @@ export default defineComponent({
   cursor: pointer
   color: #197cf2
   font-weight: bold
+  text-decoration: none
 
 .message
   margin: 20px 0
   @include mobile-version
     color: #f5f5f5
+
+.error-message
+  color: red
+  font-size: 13px
+  margin-top: 5px
+  @include mobile-version
+    font-size: 13px
+    padding-left: 10px
 
 </style>
